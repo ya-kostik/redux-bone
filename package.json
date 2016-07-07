@@ -1,0 +1,25 @@
+{
+  "name": "redux-bone",
+  "version": "0.1.0",
+  "description": "Redux fantasy about Backbone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ya-kostik/redux-bone.git"
+  },
+  "keywords": [
+    "redux",
+    "bone",
+    "ajax",
+    "backbone"
+  ],
+  "author": "Constantin Tsukanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ya-kostik/redux-bone/issues"
+  },
+  "homepage": "https://github.com/ya-kostik/redux-bone#readme"
+}
