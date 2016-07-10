@@ -8,7 +8,7 @@ Redux fantasy about backbone
 npm i redux-bone --save-dev
 ```
 
-And initialize it
+##Initialize
 ```javascript
 import {combineReducers, createStore} from 'redux';
 import Redbone, {reducer as redbone} from 'redux-bone';
@@ -27,7 +27,8 @@ Now create your first collection
 const API_URL = 'http://localhost:3000/';
 
 class Users extends Redbone.Collection {
-  constructor() {
+  constructor(options) {
+    super(options);
     this.url = API_URL + 'user/';
   }
 }
@@ -39,8 +40,54 @@ const usersWithPID = new Users({
   pid: 'custom_pid'
 });
 users.fetch();
-// Dispatch > { type: @@Redbone/collection/users/custom_pid/FETCH }
+// Dispatch > { type: @@Redbone/collection/Users/custom_pid/FETCH_REQUESTING }
 ```
+You can create models too
+
+```javascript
+//Create class
+class User extends Redbone.Model {
+  this.url = API_URL + 'user/';
+  pid = 'current_user';
+}
+
+//Create instance
+const user = new User();
+user.load('1');
+// Dispatch > { type: @@Redbone/model/User/current_user/LOAD_REQUESTING }
+//...some stuff
+//after Dispatch > { type: @@Redbone/model/User/current_user/LOAD_REQUESTED }
+data = user.get();
+//{
+//  login: 'user',
+//  token: '577b7bb2d1b3b93a29a0d9d3'
+//}
+```
+For more flexibility, you can add special redbone middleware
+```javascript
+import {middleware} from 'redux-bone';
+//...apply middleware
+class User extends Redbone.Model {
+  this.url = API_URL + 'user/';
+  pid = 'current_user';
+  //Middleware controls
+  //Before call next(action) in middleware
+  beforeDispatch({action, next}) {
+    if (action.type === this.TYPES.SYNC) {
+      if (action.data.removed) return;
+    }
+    //Don't forget, call next with action
+    next(action);
+  }
+  //after next(action) was call
+  afterDispatch({action}) {
+    if (action.type === this.TYPES.SAVE_REQUESTED) {
+      alert('Model is saved!');
+    }
+  }
+}
+```
+
 
 The MIT License (MIT)
 
